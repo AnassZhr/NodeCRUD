@@ -3,6 +3,7 @@ const express = require("express")
 const app = express()
 const mongoose = require("mongoose")
 const productRoute = require("./routes/ProductRoute"); 
+const errorMiddleware = require("./middleware/errorMiddleware");
 
 const MONGO_URL = process.env.MONGO_URL
 const PORT = process.env.Port
@@ -12,11 +13,13 @@ app.use(express.urlencoded({extended:false}))
 app.use("/api/products",productRoute)
 
 app.get("/", (req,res) => {
-    res.send("Hello Node Api")
+    throw new  Error("fake error")
+   // res.send("Hello Node Api")
 })
 app.get("/node",(req,res) => {
     res.send("yoo wassup")
 })
+app.use(errorMiddleware);
 
 
 mongoose.connect(MONGO_URL)
